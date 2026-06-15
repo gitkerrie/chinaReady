@@ -9,6 +9,8 @@ import {
 import { Icon } from "@/components/Icon";
 import { GuideArt } from "@/components/illustrations";
 import { LastUpdated } from "@/components/LastUpdated";
+import { StepImage } from "@/components/StepImage";
+import { SourceLink } from "@/components/SourceLink";
 
 type Params = { slug: string };
 
@@ -84,15 +86,49 @@ export default function GuidePage({ params }: { params: Params }) {
             {section.body && (
               <p className="mt-2 text-neutral-600">{section.body}</p>
             )}
+            {/* Section-level image */}
+            {section.image && (
+              <div className="mt-3">
+                <StepImage
+                  src={section.image.src}
+                  alt={section.image.alt}
+                  caption={section.image.caption}
+                />
+              </div>
+            )}
+            {/* Section-level source */}
+            {section.source && (
+              <SourceLink
+                url={section.source.url}
+                label={section.source.label}
+              />
+            )}
             {section.items && (
               <ul className="mt-4 space-y-2.5">
                 {section.items.map((item) => (
                   <li
-                    key={item}
+                    key={item.text}
                     className="flex gap-3 rounded-lg border border-neutral-100 bg-neutral-50 px-4 py-3 text-neutral-700"
                   >
                     <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-brand-400" />
-                    <span>{item}</span>
+                    <div className="flex-1">
+                      <span>{item.text}</span>
+                      {/* Item-level image */}
+                      {item.image && (
+                        <StepImage
+                          src={item.image.src}
+                          alt={item.image.alt}
+                          caption={item.image.caption}
+                        />
+                      )}
+                      {/* Item-level source link */}
+                      {item.source && (
+                        <SourceLink
+                          url={item.source.url}
+                          label={item.source.label}
+                        />
+                      )}
+                    </div>
                   </li>
                 ))}
               </ul>
